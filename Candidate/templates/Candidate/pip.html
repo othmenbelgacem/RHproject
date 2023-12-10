@@ -1,0 +1,133 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Candidate Mangement System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <i class="fa-solid fa-users fa-lg"></i>
+      Candidate Management System</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#"> <i class="fa-solid fa-list fa-lg"></i>
+            All Candidates </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fa-solid fa-plus fa-lg"></i>add Candidate </a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-sm-2" type="search" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+<h3 class="m-4">All Candidate </h3>
+<div class="row">
+  <div class="col-12">
+    {% if Candidate %}
+    <div class="card bg-light ms-3 me-4 mb-4" >
+  <div class="card-header">
+    <i class="fa-solid fa-list fa-lg"></i> Candidate Records
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+      <div class="table-responsive">
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">candidate number</th>
+      <th scope="col">First name</th>
+      <th scope="col">Last name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Job Category</th>
+      <th scope="col">GPA</th>
+      <th scope="col">Years of Experience</th>
+      <th scope="col">Action</th>
+
+    </tr>
+  </thead>
+ <tbody>
+    {% for candidate in Candidate %}
+        <tr>
+          <td>{{ candidate.Candidate_number}}</td>
+            <td>{{ candidate.first_name }}</td>
+            <td>{{ candidate.last_name }}</td>
+            <td>{{ candidate.email }}</td>
+            <td>{{ candidate.Candidate_job_category }}</td>
+            <td>{{ candidate.gpa }}</td>
+            <td>{{ candidate.Years_of_Experience }}</td>
+            <td>
+                <!-- Add meaningful content or actions here -->
+                <button type="button" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#myModal{{ candidate.id }}">
+    <i class="fa-solid fa-circle-info fa-lg"></i>
+</button>
+              <div class="modal" id="myModal{{ candidate.id }}" tabindex="-1" aria-labelledby="myModelLabel1" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Candidate: {{ candidate.Candidate_number }} {{ candidate.last_name }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled">
+          <li>Candidate Number: <strong>{{ candidate.Candidate_number }}</strong></li>
+          <li>First Name: <strong>{{ candidate.first_name }}</strong></li>
+          <li>Last Name: <strong>{{ candidate.last_name }}</strong></li>
+          <li>Email: <strong>{{ candidate.email }}</strong></li>
+          <li>Candidate Job Category: <strong>{{ candidate.Candidate_job_category }}</strong></li>
+          <li>GPA: <strong>{{ candidate.gpa }}</strong></li>
+          <li>Years of Experience: <strong>{{ candidate.Years_of_Experience }}</strong></li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+  </div>
+    </p>
+  </div>
+</div>
+
+    {% else %}
+    <h5 class="alert alert-primary ms-4 me-4 ">No Candidate Records </h5>
+    {% endif %}
+
+
+</div>
+</div>
+</div>
+<footer class="mt-auto mb-4 ">
+  <div class="text-center">
+    <span>
+    <script>document.write(new Date().getFullYear())</script></span>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

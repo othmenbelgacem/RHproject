@@ -10,7 +10,7 @@ from io import BytesIO
 import base64
 from scipy.cluster.hierarchy import linkage, dendrogram
 import numpy as np
-
+from sklearn.preprocessing import LabelEncoder  # Import LabelEncoder
 def index(request):
     candidates = Candidate.objects.all()
 #000
@@ -18,9 +18,12 @@ def index(request):
         'salary': [candidate.salary for candidate in candidates],
         'experience': [candidate.Years_of_Experience for candidate in candidates],
         'gpa': [candidate.gpa for candidate in candidates],
+        'job_category': [candidate.Candidate_job_category for candidate in candidates],  # Add this line
     }
     df = pd.DataFrame(data)
-
+    # Convert categorical data to numerical using LabelEncoder
+    label_encoder = LabelEncoder()
+    df['job_category_encoded'] = label_encoder.fit_transform(df['job_category'])
     # Perform linear regression
     X_regression = df[['experience']]  # Swap 'salary' with 'experience'
     y_regression = df['salary']
@@ -45,7 +48,7 @@ def index(request):
     # Convert the linear regression image stream to base64 for embedding in HTML
     linear_regression_plot_base64 = base64.b64encode(linear_regression_stream.getvalue()).decode('utf-8')
 
-    X_clustering = df[['gpa', 'experience']]
+    X_clustering = df[['job_category_encoded', 'experience']]
     linkage_matrix = linkage(X_clustering, method='ward')
 
     # Plot the dendrogram

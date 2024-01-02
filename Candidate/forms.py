@@ -1,6 +1,6 @@
 from django import forms
 from .models import Candidate
-
+#h
 class CandidateForm(forms.ModelForm):
     class Meta :
         model = Candidate
